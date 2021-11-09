@@ -1,8 +1,11 @@
 import { join } from "path";
 import React, { useState, useEffect } from "react";
+import { Helmet } from "react-helmet";
 import { useQuery } from "react-query";
 import { Link } from "react-router-dom";
+import { useRecoilState, useSetRecoilState } from "recoil";
 import styled from "styled-components";
+import { isDarkAtom } from "../atoms";
 import { fetchCoins } from "./api";
 
 const Container = styled.div`
@@ -18,10 +21,11 @@ const Header = styled.header`
 `;
 const CoinsList = styled.ul``;
 const Coin = styled.li`
-  background-color: white;
-  color: ${(props) => props.theme.bgColor};
+  background-color: ${(props) => props.theme.cardBgColor};
+  color: ${(props) => props.theme.textColor};
   border-radius: 15px;
   margin-bottom: 10px;
+  border: 1px solid white;
   a {
     display: flex;
     align-items: center;
@@ -61,6 +65,9 @@ interface ICoin {
 function Coins() {
   const { isLoading, data } = useQuery<ICoin[]>("allCoins", fetchCoins);
 
+  const setDarkAtom = useSetRecoilState(isDarkAtom);
+  const toggleBtn = () => setDarkAtom((prev) => !prev);
+
   /*const [coins, setCoins] = useState<ICoin[]>([]);
   const [loading, setLoading] = useState(true);
   useEffect(() => {
@@ -74,8 +81,13 @@ function Coins() {
 
   return (
     <Container>
+      <Helmet>
+        <title>코인</title>
+      </Helmet>
+
       <Header>
-        <Title>Coins</Title>;
+        <Title>코인</Title>
+        <button onClick={toggleBtn}>Toggle btn</button>
       </Header>
       <CoinsList>
         {isLoading ? (
