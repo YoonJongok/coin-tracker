@@ -2,11 +2,11 @@ import { join } from "path";
 import React, { useState, useEffect } from "react";
 import { Helmet } from "react-helmet";
 import { useQuery } from "react-query";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import { useRecoilState, useSetRecoilState } from "recoil";
 import styled from "styled-components";
 import { isDarkAtom } from "../atoms";
-import { fetchCoins } from "./api";
+import { fetchCoins } from "../api";
 
 const Container = styled.div`
   padding: 0px 20px;
@@ -101,7 +101,9 @@ function Coins() {
                   state: { name: coin.name },
                 }}
               >
-                <Img src="" />
+                <Img
+                  src={`https://cryptoicon-api.vercel.app/api/icon/${coin.symbol.toLowerCase()}`}
+                />
                 {coin.name} &rarr;
               </Link>
             </Coin>

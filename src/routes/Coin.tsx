@@ -5,12 +5,15 @@ import {
   Link,
   Route,
   Switch,
+  useHistory,
   useLocation,
   useParams,
   useRouteMatch,
 } from "react-router-dom";
 import styled from "styled-components";
-import { fetchCoinInfo, fetchCoinTickers } from "./api";
+import { isLiteralExpression } from "typescript";
+import { fetchCoinInfo, fetchCoinTickers } from "../api";
+import { Header } from "../components/Header";
 import Chart from "./Chart";
 import Price from "./Price";
 
@@ -19,18 +22,19 @@ const Container = styled.div`
   max-width: 480px;
   margin: 0 auto;
 `;
-const Header = styled.header`
-  height: 15vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-`;
+// const Header = styled.header`
+//   height: 15vh;
+//   display: flex;
+//   justify-content: space-between;
+//   align-items: center;
+// `;
 const Loader = styled.span`
   text-align: center;
   display: block;
 `;
 const Title = styled.h1`
-  color: ${(props) => props.theme.accentColor};
+  align-self: center;
+  color: #0e1013;
   font-size: 3rem;
 `;
 
@@ -44,6 +48,7 @@ const Overview = styled.div`
 const OverviewItem = styled.div`
   display: flex;
   flex-direction: column;
+  justify-content: space-between;
   align-items: center;
   span:first-child {
     font-size: 10px;
@@ -73,8 +78,24 @@ const Tab = styled.span<{ isActive: boolean }>`
   border-radius: 10px;
   a {
     display: block;
-    color: ${(props) =>
-      props.isActive ? props.theme.accentColor : props.theme.textColor};
+    color: ${(props) => (props.isActive ? "gray" : props.theme.textColor)};
+  }
+`;
+
+const GoBackButton = styled.button`
+  width: 2.8rem;
+  height: 2.8rem;
+  border: 2px #0e1013 solid;
+  border-radius: 8px;
+  background-color: #2f3640;
+  font-size: 1rem;
+  text-align: center;
+  align-self: center;
+  &:hover {
+    background-color: #171b1f;
+    transition: 0.5s ease-in-out;
+    border: none;
+    color: white;
   }
 `;
 
@@ -93,7 +114,6 @@ interface InfoData {
   is_new: boolean;
   is_active: boolean;
   type: string;
-
   description: string;
   message: string;
   open_source: boolean;
@@ -103,12 +123,11 @@ interface InfoData {
   proof_type: string;
   org_structure: string;
   hash_algorithm: string;
-
   first_data_at: string;
   last_data_at: string;
 }
 
-interface PriceData {
+export interface PriceData {
   id: string;
   name: string;
   symbol: string;
@@ -146,6 +165,7 @@ function Coin() {
   const { state } = useLocation<RouteState>();
   const priceMatch = useRouteMatch("/:coinId/price");
   const chartMatch = useRouteMatch("/:coinId/chart");
+  const history = useHistory();
 
   const { isLoading: infoLoading, data: infoData } = useQuery<InfoData>(
     ["info", coinId],
@@ -185,12 +205,13 @@ function Coin() {
           {state?.name ? state.name : loading ? "Loading..." : infoData?.name}
         </title>
       </Helmet>
-      <Header>
-        <Title>
-          {state?.name ? state.name : loading ? "Loading..." : infoData?.name}
-        </Title>
-        ;
-      </Header>
+
+      <Header
+        headerName={
+          state?.name ? state.name : loading ? "Loading..." : infoData?.name
+        }
+      />
+
       {loading ? (
         <Loader>"Loading...</Loader>
       ) : (
