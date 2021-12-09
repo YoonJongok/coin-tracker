@@ -51,18 +51,19 @@ export const DarkModeBtn = styled.button`
   }
 `;
 
-const LinkContainer = styled.div<ContainerProps>`
+const LinkContainer = styled.span<ContainerProps>`
   visibility: ${(props) => (props.current ? "hidden" : "visible")};
   width: 2.8rem;
   height: 2.8rem;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  text-align: center;
   border: ${(props) => props.theme.borderConfig};
   border-radius: 8px;
   background-color: ${(props) => props.theme.bgColor};
   font-size: 1rem;
-  align-self: center;
+  a {
+    padding: 0.8rem 1rem;
+    display: block;
+  }
   &:hover {
     background-color: #171b1f;
     border: none;

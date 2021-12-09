@@ -39,6 +39,7 @@ const OverviewItem = styled.div`
   flex-direction: column;
   justify-content: space-between;
   align-items: center;
+  color: ${(props) => props.theme.textColor};
   span:first-child {
     font-size: 10px;
     font-weight: 400;
@@ -65,7 +66,7 @@ const Tab = styled.span<{ isActive: boolean }>`
   background-color: rgba(0, 0, 0, 0.5);
   padding: 10px 0px;
   border-radius: 10px;
-  a {
+  color: ${(props) => props.theme.textColor} a {
     display: block;
     color: ${(props) => (props.isActive ? "gray" : props.theme.textColor)};
   }
