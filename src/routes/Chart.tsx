@@ -68,6 +68,22 @@ function Chart({ coinId }: ChartProps) {
                 enabled: true,
               },
             },
+            plotOptions: {
+              candlestick: {
+                colors: {
+                  upward: "#3C90EB",
+                  downward: "#DF7D46",
+                },
+              },
+            },
+            theme: {
+              mode: isDark ? "light" : "dark",
+            },
+            grid: { show: true },
+            stroke: {
+              curve: "smooth",
+              width: 2,
+            },
           }}
         />
       )}

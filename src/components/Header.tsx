@@ -56,12 +56,15 @@ const LinkContainer = styled.span<ContainerProps>`
   width: 2.8rem;
   height: 2.8rem;
   text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   border: ${(props) => props.theme.borderConfig};
   border-radius: 8px;
   background-color: ${(props) => props.theme.bgColor};
   font-size: 1rem;
   a {
-    padding: 0.8rem 1rem;
+    padding: 1rem;
     display: block;
   }
   &:hover {
