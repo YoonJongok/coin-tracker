@@ -1,7 +1,21 @@
 import React from "react";
-import { useHistory } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import styled from "styled-components";
+import { useRecoilValue, useSetRecoilState } from "recoil";
+import { isDarkAtom } from "../atoms";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+  faChevronLeft,
+  faMoon,
+  faSun,
+} from "@fortawesome/free-solid-svg-icons";
 
+interface ContainerProps {
+  current: boolean;
+}
+interface IHeaderProps {
+  headerName: string | undefined;
+}
 const SHeader = styled.header`
   height: 15vh;
   display: flex;
@@ -15,40 +29,70 @@ const Title = styled.h1`
   font-size: 3rem;
   margin: auto;
 `;
-const GoBackButton = styled.button`
+
+export const DarkModeBtn = styled.button`
   width: 2.8rem;
   height: 2.8rem;
   display: flex;
   justify-content: center;
   align-items: center;
-  border: 2px #0e1013 solid;
+  border: ${(props) => props.theme.borderConfig};
   border-radius: 8px;
-  background-color: #2f3640;
+  background-color: ${(props) => props.theme.bgColor};
   font-size: 1rem;
   text-align: center;
   align-self: center;
   &:hover {
     background-color: #171b1f;
-    transition: 0.5s ease-in-out;
+    transition: 0.2s ease-in-out;
     border: none;
     color: white;
     cursor: pointer;
   }
 `;
-const Div = styled.div`
+
+const LinkContainer = styled.div<ContainerProps>`
+  visibility: ${(props) => (props.current ? "hidden" : "visible")};
   width: 2.8rem;
   height: 2.8rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: ${(props) => props.theme.borderConfig};
+  border-radius: 8px;
+  background-color: ${(props) => props.theme.bgColor};
+  font-size: 1rem;
+  align-self: center;
+  &:hover {
+    background-color: #171b1f;
+    border: none;
+    color: white;
+    cursor: pointer;
+  }
 `;
-interface IHeaderProps {
-  headerName: string | undefined;
-}
+
 export const Header = ({ headerName }: IHeaderProps) => {
-  const history = useHistory();
+  const { pathname } = useLocation();
+  const setDarkAtom = useSetRecoilState(isDarkAtom);
+  const isDarkMode = useRecoilValue(isDarkAtom);
+  const toggleBtn = () => setDarkAtom((prev) => !prev);
+
   return (
     <SHeader>
-      <GoBackButton onClick={() => history.goBack()}>Go back</GoBackButton>
+      <LinkContainer current={pathname === "/"}>
+        <Link to={"/"}>
+          <FontAwesomeIcon icon={faChevronLeft} />
+        </Link>
+      </LinkContainer>
+
       <Title>{headerName}</Title>
-      <Div></Div>
+      <DarkModeBtn onClick={toggleBtn}>
+        {isDarkMode ? (
+          <FontAwesomeIcon icon={faSun} />
+        ) : (
+          <FontAwesomeIcon icon={faMoon} />
+        )}
+      </DarkModeBtn>
     </SHeader>
   );
 };

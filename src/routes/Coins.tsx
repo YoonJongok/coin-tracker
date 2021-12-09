@@ -1,24 +1,21 @@
-import { join } from "path";
-import React, { useState, useEffect } from "react";
+import React from "react";
 import { Helmet } from "react-helmet";
 import { useQuery } from "react-query";
 import { Link, useHistory } from "react-router-dom";
-import { useRecoilState, useSetRecoilState } from "recoil";
 import styled from "styled-components";
-import { isDarkAtom } from "../atoms";
 import { fetchCoins } from "../api";
-
+import { Header } from "../components/Header";
 const Container = styled.div`
   padding: 0px 20px;
   max-width: 480px;
   margin: 0 auto;
 `;
-const Header = styled.header`
-  height: 15vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-`;
+// const Header = styled.header`
+//   height: 15vh;
+//   display: flex;
+//   justify-content: center;
+//   align-items: center;
+// `;
 const CoinsList = styled.ul``;
 const Coin = styled.li`
   background-color: ${(props) => props.theme.cardBgColor};
@@ -65,9 +62,6 @@ interface ICoin {
 function Coins() {
   const { isLoading, data } = useQuery<ICoin[]>("allCoins", fetchCoins);
 
-  const setDarkAtom = useSetRecoilState(isDarkAtom);
-  const toggleBtn = () => setDarkAtom((prev) => !prev);
-
   /*const [coins, setCoins] = useState<ICoin[]>([]);
   const [loading, setLoading] = useState(true);
   useEffect(() => {
@@ -82,13 +76,11 @@ function Coins() {
   return (
     <Container>
       <Helmet>
-        <title>코인</title>
+        <title>CoinTracker | Coins</title>
       </Helmet>
 
-      <Header>
-        <Title>코인</Title>
-        <button onClick={toggleBtn}>Toggle btn</button>
-      </Header>
+      <Header headerName={"Coin Tracker"} />
+
       <CoinsList>
         {isLoading ? (
           <Loader>"Loading...</Loader>
