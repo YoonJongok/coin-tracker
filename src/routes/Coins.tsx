@@ -1,7 +1,7 @@
 import React from "react";
 import { Helmet } from "react-helmet";
 import { useQuery } from "react-query";
-import { Link, useHistory } from "react-router-dom";
+import { Link } from "react-router-dom";
 import styled from "styled-components";
 import { fetchCoins } from "../api";
 import { Header } from "../components/Header";
@@ -10,12 +10,7 @@ const Container = styled.div`
   max-width: 480px;
   margin: 0 auto;
 `;
-// const Header = styled.header`
-//   height: 15vh;
-//   display: flex;
-//   justify-content: center;
-//   align-items: center;
-// `;
+
 const CoinsList = styled.ul``;
 const Coin = styled.li`
   background-color: ${(props) => props.theme.cardBgColor};

@@ -14,7 +14,7 @@ import styled from "styled-components";
 import { fetchCoinInfo, fetchCoinTickers } from "../api";
 import { Header } from "../components/Header";
 import Chart from "./Chart";
-import Price from "./Price";
+import { Price } from "./Price";
 
 const Container = styled.div`
   padding: 0px 20px;
@@ -30,7 +30,7 @@ const Loader = styled.span`
 const Overview = styled.div`
   display: flex;
   justify-content: space-between;
-  background-color: rgba(0, 0, 0, 0.5);
+  background-color: ${(props) => props.theme.cardBgColor};
   padding: 10px 20px;
   border-radius: 10px;
 `;
@@ -53,22 +53,26 @@ const Description = styled.p`
 `;
 
 const Tabs = styled.div`
+  height: 25px;
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   margin: 25px 0px;
   gap: 10px;
 `;
 const Tab = styled.span<{ isActive: boolean }>`
+  align-self: center;
   text-align: center;
   text-transform: uppercase;
-  font-size: 12px;
+  font-size: ${(props) => (props.isActive ? "0.8rem" : "12px")};
   font-weight: 400;
   background-color: rgba(0, 0, 0, 0.5);
   padding: 10px 0px;
   border-radius: 10px;
-  color: ${(props) => props.theme.textColor} a {
+  border-bottom: ${(props) => (props.isActive ? "2px solid" : "inherit")};
+  color: ${(props) =>
+    props.isActive ? props.theme.accentColor : props.theme.textColor};
+  a {
     display: block;
-    color: ${(props) => (props.isActive ? "gray" : props.theme.textColor)};
   }
 `;
 
@@ -206,7 +210,7 @@ function Coin() {
 
           <Switch>
             <Route path={`/${coinId}/price`}>
-              <Price />
+              <Price coinId={coinId} />
             </Route>
             <Route path={`/${coinId}/chart`}>
               <Chart coinId={coinId} />

@@ -62,9 +62,10 @@ const LinkContainer = styled.span<ContainerProps>`
   border: ${(props) => props.theme.borderConfig};
   border-radius: 8px;
   background-color: ${(props) => props.theme.bgColor};
+  color: #0e1013;
   font-size: 1rem;
   a {
-    padding: 1rem;
+    padding: 2rem;
     display: block;
   }
   &:hover {
